@@ -1,21 +1,43 @@
-require_relative 'postfixparser'
-require_relative 'prefixparser'
 
 module AdvCalc
   class Calculator
     
-    def initialize
-      
-    end
-    
     def evaluate_postfix(string)
-      postfix_parser = AdvCalc::PostfixParser.new(string)
-      postfix_parser.get_postfix_value
+      array = string.split
+      calculate(array)
     end
     
-    def evaluate_prefix(string)
-      prefix_parser = AdvCalc::PrefixParser.new(string)
-      prefix_parser.get_prefix_value
+    def evaluate_prefix(string)      
+      array = string.split.reverse
+      calculate(array)
+    end
+    
+    def calculate(array)
+      @array = array
+      operands = ["+", "-", "*", "/"]
+      if @array.length > 0
+        @array.each do |item|
+          if operands.include?(item)
+            operate(item)
+          end
+        end
+      end
+      get_value
+    end
+    
+    private
+    
+    def operate(operand)
+      @index = @array.find_index(operand)
+      @array[@index - 2] = 
+        eval("#{@array[@index - 2].to_f} #{@array[@index]} #{@array[@index-1]}")
+      @array.delete_at(@index)
+      @array.delete_at(@index-1)
+      calculate(@array)
+    end
+    
+    def get_value
+      @array[0].to_i
     end
     
   end
