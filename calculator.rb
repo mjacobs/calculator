@@ -1,6 +1,8 @@
+# Code to evaluate arithmetic expressions.
 class Calculator
   
   def initialize
+    # TODO: Support more operators
     @operands = ["+", "-", "*", "/"]
   end
   
